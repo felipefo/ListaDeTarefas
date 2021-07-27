@@ -1,0 +1,16 @@
+package com.todolist.edu.repository;
+
+import com.todolist.edu.domain.Categoria;
+import java.util.List;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Spring Data SQL repository for the Categoria entity.
+ */
+@SuppressWarnings("unused")
+@Repository
+public interface CategoriaRepository extends JpaRepository<Categoria, Long>, JpaSpecificationExecutor<Categoria> {
+    @Query("select categoria from Categoria categoria where categoria.dono.login = ?#{principal.username}")
+    List<Categoria> findByDonoIsCurrentUser();
+}

@@ -1,0 +1,19 @@
+package com.todolist.edu.repository;
+
+import com.todolist.edu.domain.Tarefa;
+import java.util.List;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Spring Data SQL repository for the Tarefa entity.
+ */
+@SuppressWarnings("unused")
+@Repository
+public interface TarefaRepository extends JpaRepository<Tarefa, Long>, JpaSpecificationExecutor<Tarefa> {
+    @Query("select tarefa from Tarefa tarefa where tarefa.dono.login = ?#{principal.username}")
+    List<Tarefa> findByDonoIsCurrentUser();
+
+    @Query("select tarefa from Tarefa tarefa where tarefa.responsavel.login = ?#{principal.username}")
+    List<Tarefa> findByResponsavelIsCurrentUser();
+}

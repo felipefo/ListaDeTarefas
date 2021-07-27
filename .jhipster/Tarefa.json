@@ -1,0 +1,61 @@
+{
+  "name": "Tarefa",
+  "fields": [
+    {
+      "fieldName": "descricao",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descricaoCurta",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataDeFim",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dataDeCriacao",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "AFAZER (Afazer),FAZENDO (Fazendo),FEITA (Feita),ARQUIVADA (Arquivada)",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "tarefa",
+      "relationshipName": "dono",
+      "otherEntityField": "login"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "tarefa",
+      "relationshipName": "responsavel",
+      "otherEntityField": "login"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "categoria",
+      "otherEntityRelationshipName": "tarefa",
+      "relationshipName": "categoria"
+    }
+  ],
+  "entityTableName": "tarefa",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210727170538"
+}

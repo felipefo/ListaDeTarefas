@@ -1,0 +1,29 @@
+enum Status {
+  AFAZER (Afazer),
+  FAZENDO (Fazendo),
+  FEITA (Feita),
+  ARQUIVADA (Arquivada)
+}
+entity Tarefa {
+    descricao String required,
+    descricaoCurta String required,   
+    dataDeFim Instant,
+    dataDeCriacao Instant, 
+    status Status required,
+}
+entity Categoria {
+    descricao String required
+}
+relationship OneToMany {
+    Categoria to Tarefa, 
+}
+relationship ManyToOne {
+  Tarefa {dono(login)} to User
+  Categoria{dono(login)} to User
+  Tarefa{responsavel(login)} to User
+}
+dto * with mapstruct
+filter *
+service * with serviceClass
+paginate Tarefa with pagination
+paginate Categoria with pagination

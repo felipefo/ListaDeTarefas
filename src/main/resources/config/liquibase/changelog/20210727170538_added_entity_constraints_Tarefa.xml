@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Tarefa.
+    -->
+    <changeSet id="20210727170538-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="dono_id"
+                                 baseTableName="tarefa"
+                                 constraintName="fk_tarefa__dono_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="responsavel_id"
+                                 baseTableName="tarefa"
+                                 constraintName="fk_tarefa__responsavel_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="categoria_id"
+                                 baseTableName="tarefa"
+                                 constraintName="fk_tarefa__categoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="categoria"/>
+    </changeSet>
+</databaseChangeLog>
