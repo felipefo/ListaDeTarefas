@@ -25,11 +25,15 @@ public class Tarefa implements Serializable {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "due_date")
-    private Instant dueDate;
+    @NotNull
+    @Column(name = "descricao_curta", nullable = false)
+    private String descricaoCurta;
 
-    @Column(name = "date_criacao")
-    private Instant dateCriacao;
+    @Column(name = "data_de_fim")
+    private Instant dataDeFim;
+
+    @Column(name = "data_de_criacao")
+    private Instant dataDeCriacao;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -37,13 +41,13 @@ public class Tarefa implements Serializable {
     private Status status;
 
     @ManyToOne
-    private User user;
+    private User dono;
 
     @ManyToOne
-    private User assigneed;
+    private User responsavel;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "tarefas", "user" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tarefas", "dono" }, allowSetters = true)
     private Categoria categoria;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -73,30 +77,43 @@ public class Tarefa implements Serializable {
         this.descricao = descricao;
     }
 
-    public Instant getDueDate() {
-        return this.dueDate;
+    public String getDescricaoCurta() {
+        return this.descricaoCurta;
     }
 
-    public Tarefa dueDate(Instant dueDate) {
-        this.dueDate = dueDate;
+    public Tarefa descricaoCurta(String descricaoCurta) {
+        this.descricaoCurta = descricaoCurta;
         return this;
     }
 
-    public void setDueDate(Instant dueDate) {
-        this.dueDate = dueDate;
+    public void setDescricaoCurta(String descricaoCurta) {
+        this.descricaoCurta = descricaoCurta;
     }
 
-    public Instant getDateCriacao() {
-        return this.dateCriacao;
+    public Instant getDataDeFim() {
+        return this.dataDeFim;
     }
 
-    public Tarefa dateCriacao(Instant dateCriacao) {
-        this.dateCriacao = dateCriacao;
+    public Tarefa dataDeFim(Instant dataDeFim) {
+        this.dataDeFim = dataDeFim;
         return this;
     }
 
-    public void setDateCriacao(Instant dateCriacao) {
-        this.dateCriacao = dateCriacao;
+    public void setDataDeFim(Instant dataDeFim) {
+        this.dataDeFim = dataDeFim;
+    }
+
+    public Instant getDataDeCriacao() {
+        return this.dataDeCriacao;
+    }
+
+    public Tarefa dataDeCriacao(Instant dataDeCriacao) {
+        this.dataDeCriacao = dataDeCriacao;
+        return this;
+    }
+
+    public void setDataDeCriacao(Instant dataDeCriacao) {
+        this.dataDeCriacao = dataDeCriacao;
     }
 
     public Status getStatus() {
@@ -112,30 +129,30 @@ public class Tarefa implements Serializable {
         this.status = status;
     }
 
-    public User getUser() {
-        return this.user;
+    public User getDono() {
+        return this.dono;
     }
 
-    public Tarefa user(User user) {
-        this.setUser(user);
+    public Tarefa dono(User user) {
+        this.setDono(user);
         return this;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDono(User user) {
+        this.dono = user;
     }
 
-    public User getAssigneed() {
-        return this.assigneed;
+    public User getResponsavel() {
+        return this.responsavel;
     }
 
-    public Tarefa assigneed(User user) {
-        this.setAssigneed(user);
+    public Tarefa responsavel(User user) {
+        this.setResponsavel(user);
         return this;
     }
 
-    public void setAssigneed(User user) {
-        this.assigneed = user;
+    public void setResponsavel(User user) {
+        this.responsavel = user;
     }
 
     public Categoria getCategoria() {
@@ -176,8 +193,9 @@ public class Tarefa implements Serializable {
         return "Tarefa{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", dueDate='" + getDueDate() + "'" +
-            ", dateCriacao='" + getDateCriacao() + "'" +
+            ", descricaoCurta='" + getDescricaoCurta() + "'" +
+            ", dataDeFim='" + getDataDeFim() + "'" +
+            ", dataDeCriacao='" + getDataDeCriacao() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }

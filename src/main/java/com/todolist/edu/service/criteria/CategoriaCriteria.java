@@ -30,7 +30,7 @@ public class CategoriaCriteria implements Serializable, Criteria {
 
     private LongFilter tarefaId;
 
-    private LongFilter userId;
+    private LongFilter donoId;
 
     public CategoriaCriteria() {}
 
@@ -38,7 +38,7 @@ public class CategoriaCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
         this.tarefaId = other.tarefaId == null ? null : other.tarefaId.copy();
-        this.userId = other.userId == null ? null : other.userId.copy();
+        this.donoId = other.donoId == null ? null : other.donoId.copy();
     }
 
     @Override
@@ -91,19 +91,19 @@ public class CategoriaCriteria implements Serializable, Criteria {
         this.tarefaId = tarefaId;
     }
 
-    public LongFilter getUserId() {
-        return userId;
+    public LongFilter getDonoId() {
+        return donoId;
     }
 
-    public LongFilter userId() {
-        if (userId == null) {
-            userId = new LongFilter();
+    public LongFilter donoId() {
+        if (donoId == null) {
+            donoId = new LongFilter();
         }
-        return userId;
+        return donoId;
     }
 
-    public void setUserId(LongFilter userId) {
-        this.userId = userId;
+    public void setDonoId(LongFilter donoId) {
+        this.donoId = donoId;
     }
 
     @Override
@@ -119,13 +119,13 @@ public class CategoriaCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(descricao, that.descricao) &&
             Objects.equals(tarefaId, that.tarefaId) &&
-            Objects.equals(userId, that.userId)
+            Objects.equals(donoId, that.donoId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao, tarefaId, userId);
+        return Objects.hash(id, descricao, tarefaId, donoId);
     }
 
     // prettier-ignore
@@ -135,7 +135,7 @@ public class CategoriaCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
             (tarefaId != null ? "tarefaId=" + tarefaId + ", " : "") +
-            (userId != null ? "userId=" + userId + ", " : "") +
+            (donoId != null ? "donoId=" + donoId + ", " : "") +
             "}";
     }
 }

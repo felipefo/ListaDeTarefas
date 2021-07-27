@@ -16,16 +16,19 @@ public class TarefaDTO implements Serializable {
     @NotNull
     private String descricao;
 
-    private Instant dueDate;
+    @NotNull
+    private String descricaoCurta;
 
-    private Instant dateCriacao;
+    private Instant dataDeFim;
+
+    private Instant dataDeCriacao;
 
     @NotNull
     private Status status;
 
-    private UserDTO user;
+    private UserDTO dono;
 
-    private UserDTO assigneed;
+    private UserDTO responsavel;
 
     private CategoriaDTO categoria;
 
@@ -45,20 +48,28 @@ public class TarefaDTO implements Serializable {
         this.descricao = descricao;
     }
 
-    public Instant getDueDate() {
-        return dueDate;
+    public String getDescricaoCurta() {
+        return descricaoCurta;
     }
 
-    public void setDueDate(Instant dueDate) {
-        this.dueDate = dueDate;
+    public void setDescricaoCurta(String descricaoCurta) {
+        this.descricaoCurta = descricaoCurta;
     }
 
-    public Instant getDateCriacao() {
-        return dateCriacao;
+    public Instant getDataDeFim() {
+        return dataDeFim;
     }
 
-    public void setDateCriacao(Instant dateCriacao) {
-        this.dateCriacao = dateCriacao;
+    public void setDataDeFim(Instant dataDeFim) {
+        this.dataDeFim = dataDeFim;
+    }
+
+    public Instant getDataDeCriacao() {
+        return dataDeCriacao;
+    }
+
+    public void setDataDeCriacao(Instant dataDeCriacao) {
+        this.dataDeCriacao = dataDeCriacao;
     }
 
     public Status getStatus() {
@@ -69,20 +80,20 @@ public class TarefaDTO implements Serializable {
         this.status = status;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public UserDTO getDono() {
+        return dono;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setDono(UserDTO dono) {
+        this.dono = dono;
     }
 
-    public UserDTO getAssigneed() {
-        return assigneed;
+    public UserDTO getResponsavel() {
+        return responsavel;
     }
 
-    public void setAssigneed(UserDTO assigneed) {
-        this.assigneed = assigneed;
+    public void setResponsavel(UserDTO responsavel) {
+        this.responsavel = responsavel;
     }
 
     public CategoriaDTO getCategoria() {
@@ -120,11 +131,12 @@ public class TarefaDTO implements Serializable {
         return "TarefaDTO{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", dueDate='" + getDueDate() + "'" +
-            ", dateCriacao='" + getDateCriacao() + "'" +
+            ", descricaoCurta='" + getDescricaoCurta() + "'" +
+            ", dataDeFim='" + getDataDeFim() + "'" +
+            ", dataDeCriacao='" + getDataDeCriacao() + "'" +
             ", status='" + getStatus() + "'" +
-            ", user=" + getUser() +
-            ", assigneed=" + getAssigneed() +
+            ", dono=" + getDono() +
+            ", responsavel=" + getResponsavel() +
             ", categoria=" + getCategoria() +
             "}";
     }

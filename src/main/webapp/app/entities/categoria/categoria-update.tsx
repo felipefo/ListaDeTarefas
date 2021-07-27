@@ -46,7 +46,7 @@ export const CategoriaUpdate = (props: ICategoriaUpdateProps) => {
       const entity = {
         ...categoriaEntity,
         ...values,
-        user: users.find(it => it.id.toString() === values.userId.toString()),
+        dono: users.find(it => it.id.toString() === values.donoId.toString()),
       };
 
       if (isNew) {
@@ -95,10 +95,10 @@ export const CategoriaUpdate = (props: ICategoriaUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
-                <Label for="categoria-user">
-                  <Translate contentKey="listaDeTarefasApp.categoria.user">User</Translate>
+                <Label for="categoria-dono">
+                  <Translate contentKey="listaDeTarefasApp.categoria.dono">Dono</Translate>
                 </Label>
-                <AvInput id="categoria-user" data-cy="user" type="select" className="form-control" name="userId">
+                <AvInput id="categoria-dono" data-cy="dono" type="select" className="form-control" name="donoId">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (

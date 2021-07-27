@@ -6,11 +6,12 @@ import { Status } from 'app/shared/model/enumerations/status.model';
 export interface ITarefa {
   id?: number;
   descricao?: string;
-  dueDate?: string | null;
-  dateCriacao?: string | null;
+  descricaoCurta?: string;
+  dataDeFim?: string | null;
+  dataDeCriacao?: string | null;
   status?: Status;
-  user?: IUser | null;
-  assigneed?: IUser | null;
+  dono?: IUser | null;
+  responsavel?: IUser | null;
   categoria?: ICategoria | null;
 }
 

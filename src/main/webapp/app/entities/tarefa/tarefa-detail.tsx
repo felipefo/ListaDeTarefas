@@ -37,17 +37,25 @@ export const TarefaDetail = (props: ITarefaDetailProps) => {
           </dt>
           <dd>{tarefaEntity.descricao}</dd>
           <dt>
-            <span id="dueDate">
-              <Translate contentKey="listaDeTarefasApp.tarefa.dueDate">Due Date</Translate>
+            <span id="descricaoCurta">
+              <Translate contentKey="listaDeTarefasApp.tarefa.descricaoCurta">Descricao Curta</Translate>
             </span>
           </dt>
-          <dd>{tarefaEntity.dueDate ? <TextFormat value={tarefaEntity.dueDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dd>{tarefaEntity.descricaoCurta}</dd>
           <dt>
-            <span id="dateCriacao">
-              <Translate contentKey="listaDeTarefasApp.tarefa.dateCriacao">Date Criacao</Translate>
+            <span id="dataDeFim">
+              <Translate contentKey="listaDeTarefasApp.tarefa.dataDeFim">Data De Fim</Translate>
             </span>
           </dt>
-          <dd>{tarefaEntity.dateCriacao ? <TextFormat value={tarefaEntity.dateCriacao} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dd>{tarefaEntity.dataDeFim ? <TextFormat value={tarefaEntity.dataDeFim} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dt>
+            <span id="dataDeCriacao">
+              <Translate contentKey="listaDeTarefasApp.tarefa.dataDeCriacao">Data De Criacao</Translate>
+            </span>
+          </dt>
+          <dd>
+            {tarefaEntity.dataDeCriacao ? <TextFormat value={tarefaEntity.dataDeCriacao} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
           <dt>
             <span id="status">
               <Translate contentKey="listaDeTarefasApp.tarefa.status">Status</Translate>
@@ -55,13 +63,13 @@ export const TarefaDetail = (props: ITarefaDetailProps) => {
           </dt>
           <dd>{tarefaEntity.status}</dd>
           <dt>
-            <Translate contentKey="listaDeTarefasApp.tarefa.user">User</Translate>
+            <Translate contentKey="listaDeTarefasApp.tarefa.dono">Dono</Translate>
           </dt>
-          <dd>{tarefaEntity.user ? tarefaEntity.user.login : ''}</dd>
+          <dd>{tarefaEntity.dono ? tarefaEntity.dono.login : ''}</dd>
           <dt>
-            <Translate contentKey="listaDeTarefasApp.tarefa.assigneed">Assigneed</Translate>
+            <Translate contentKey="listaDeTarefasApp.tarefa.responsavel">Responsavel</Translate>
           </dt>
-          <dd>{tarefaEntity.assigneed ? tarefaEntity.assigneed.login : ''}</dd>
+          <dd>{tarefaEntity.responsavel ? tarefaEntity.responsavel.login : ''}</dd>
           <dt>
             <Translate contentKey="listaDeTarefasApp.tarefa.categoria">Categoria</Translate>
           </dt>

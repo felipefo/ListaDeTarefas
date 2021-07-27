@@ -40,11 +40,14 @@ class TarefaResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_DUE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DUE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_DESCRICAO_CURTA = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRICAO_CURTA = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_DATE_CRIACAO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATE_CRIACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_DATA_DE_FIM = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_DE_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DATA_DE_CRIACAO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_DE_CRIACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Status DEFAULT_STATUS = Status.AFAZER;
     private static final Status UPDATED_STATUS = Status.FAZENDO;
@@ -78,8 +81,9 @@ class TarefaResourceIT {
     public static Tarefa createEntity(EntityManager em) {
         Tarefa tarefa = new Tarefa()
             .descricao(DEFAULT_DESCRICAO)
-            .dueDate(DEFAULT_DUE_DATE)
-            .dateCriacao(DEFAULT_DATE_CRIACAO)
+            .descricaoCurta(DEFAULT_DESCRICAO_CURTA)
+            .dataDeFim(DEFAULT_DATA_DE_FIM)
+            .dataDeCriacao(DEFAULT_DATA_DE_CRIACAO)
             .status(DEFAULT_STATUS);
         return tarefa;
     }
@@ -93,8 +97,9 @@ class TarefaResourceIT {
     public static Tarefa createUpdatedEntity(EntityManager em) {
         Tarefa tarefa = new Tarefa()
             .descricao(UPDATED_DESCRICAO)
-            .dueDate(UPDATED_DUE_DATE)
-            .dateCriacao(UPDATED_DATE_CRIACAO)
+            .descricaoCurta(UPDATED_DESCRICAO_CURTA)
+            .dataDeFim(UPDATED_DATA_DE_FIM)
+            .dataDeCriacao(UPDATED_DATA_DE_CRIACAO)
             .status(UPDATED_STATUS);
         return tarefa;
     }
@@ -119,8 +124,9 @@ class TarefaResourceIT {
         assertThat(tarefaList).hasSize(databaseSizeBeforeCreate + 1);
         Tarefa testTarefa = tarefaList.get(tarefaList.size() - 1);
         assertThat(testTarefa.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
-        assertThat(testTarefa.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
-        assertThat(testTarefa.getDateCriacao()).isEqualTo(DEFAULT_DATE_CRIACAO);
+        assertThat(testTarefa.getDescricaoCurta()).isEqualTo(DEFAULT_DESCRICAO_CURTA);
+        assertThat(testTarefa.getDataDeFim()).isEqualTo(DEFAULT_DATA_DE_FIM);
+        assertThat(testTarefa.getDataDeCriacao()).isEqualTo(DEFAULT_DATA_DE_CRIACAO);
         assertThat(testTarefa.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -149,6 +155,24 @@ class TarefaResourceIT {
         int databaseSizeBeforeTest = tarefaRepository.findAll().size();
         // set the field null
         tarefa.setDescricao(null);
+
+        // Create the Tarefa, which fails.
+        TarefaDTO tarefaDTO = tarefaMapper.toDto(tarefa);
+
+        restTarefaMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(tarefaDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Tarefa> tarefaList = tarefaRepository.findAll();
+        assertThat(tarefaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDescricaoCurtaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = tarefaRepository.findAll().size();
+        // set the field null
+        tarefa.setDescricaoCurta(null);
 
         // Create the Tarefa, which fails.
         TarefaDTO tarefaDTO = tarefaMapper.toDto(tarefa);
@@ -192,8 +216,9 @@ class TarefaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tarefa.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dateCriacao").value(hasItem(DEFAULT_DATE_CRIACAO.toString())))
+            .andExpect(jsonPath("$.[*].descricaoCurta").value(hasItem(DEFAULT_DESCRICAO_CURTA)))
+            .andExpect(jsonPath("$.[*].dataDeFim").value(hasItem(DEFAULT_DATA_DE_FIM.toString())))
+            .andExpect(jsonPath("$.[*].dataDeCriacao").value(hasItem(DEFAULT_DATA_DE_CRIACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
@@ -210,8 +235,9 @@ class TarefaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(tarefa.getId().intValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
-            .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
-            .andExpect(jsonPath("$.dateCriacao").value(DEFAULT_DATE_CRIACAO.toString()))
+            .andExpect(jsonPath("$.descricaoCurta").value(DEFAULT_DESCRICAO_CURTA))
+            .andExpect(jsonPath("$.dataDeFim").value(DEFAULT_DATA_DE_FIM.toString()))
+            .andExpect(jsonPath("$.dataDeCriacao").value(DEFAULT_DATA_DE_CRIACAO.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -313,106 +339,184 @@ class TarefaResourceIT {
 
     @Test
     @Transactional
-    void getAllTarefasByDueDateIsEqualToSomething() throws Exception {
+    void getAllTarefasByDescricaoCurtaIsEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dueDate equals to DEFAULT_DUE_DATE
-        defaultTarefaShouldBeFound("dueDate.equals=" + DEFAULT_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta equals to DEFAULT_DESCRICAO_CURTA
+        defaultTarefaShouldBeFound("descricaoCurta.equals=" + DEFAULT_DESCRICAO_CURTA);
 
-        // Get all the tarefaList where dueDate equals to UPDATED_DUE_DATE
-        defaultTarefaShouldNotBeFound("dueDate.equals=" + UPDATED_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta equals to UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldNotBeFound("descricaoCurta.equals=" + UPDATED_DESCRICAO_CURTA);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDueDateIsNotEqualToSomething() throws Exception {
+    void getAllTarefasByDescricaoCurtaIsNotEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dueDate not equals to DEFAULT_DUE_DATE
-        defaultTarefaShouldNotBeFound("dueDate.notEquals=" + DEFAULT_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta not equals to DEFAULT_DESCRICAO_CURTA
+        defaultTarefaShouldNotBeFound("descricaoCurta.notEquals=" + DEFAULT_DESCRICAO_CURTA);
 
-        // Get all the tarefaList where dueDate not equals to UPDATED_DUE_DATE
-        defaultTarefaShouldBeFound("dueDate.notEquals=" + UPDATED_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta not equals to UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldBeFound("descricaoCurta.notEquals=" + UPDATED_DESCRICAO_CURTA);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDueDateIsInShouldWork() throws Exception {
+    void getAllTarefasByDescricaoCurtaIsInShouldWork() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dueDate in DEFAULT_DUE_DATE or UPDATED_DUE_DATE
-        defaultTarefaShouldBeFound("dueDate.in=" + DEFAULT_DUE_DATE + "," + UPDATED_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta in DEFAULT_DESCRICAO_CURTA or UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldBeFound("descricaoCurta.in=" + DEFAULT_DESCRICAO_CURTA + "," + UPDATED_DESCRICAO_CURTA);
 
-        // Get all the tarefaList where dueDate equals to UPDATED_DUE_DATE
-        defaultTarefaShouldNotBeFound("dueDate.in=" + UPDATED_DUE_DATE);
+        // Get all the tarefaList where descricaoCurta equals to UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldNotBeFound("descricaoCurta.in=" + UPDATED_DESCRICAO_CURTA);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDueDateIsNullOrNotNull() throws Exception {
+    void getAllTarefasByDescricaoCurtaIsNullOrNotNull() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dueDate is not null
-        defaultTarefaShouldBeFound("dueDate.specified=true");
+        // Get all the tarefaList where descricaoCurta is not null
+        defaultTarefaShouldBeFound("descricaoCurta.specified=true");
 
-        // Get all the tarefaList where dueDate is null
-        defaultTarefaShouldNotBeFound("dueDate.specified=false");
+        // Get all the tarefaList where descricaoCurta is null
+        defaultTarefaShouldNotBeFound("descricaoCurta.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDateCriacaoIsEqualToSomething() throws Exception {
+    void getAllTarefasByDescricaoCurtaContainsSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dateCriacao equals to DEFAULT_DATE_CRIACAO
-        defaultTarefaShouldBeFound("dateCriacao.equals=" + DEFAULT_DATE_CRIACAO);
+        // Get all the tarefaList where descricaoCurta contains DEFAULT_DESCRICAO_CURTA
+        defaultTarefaShouldBeFound("descricaoCurta.contains=" + DEFAULT_DESCRICAO_CURTA);
 
-        // Get all the tarefaList where dateCriacao equals to UPDATED_DATE_CRIACAO
-        defaultTarefaShouldNotBeFound("dateCriacao.equals=" + UPDATED_DATE_CRIACAO);
+        // Get all the tarefaList where descricaoCurta contains UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldNotBeFound("descricaoCurta.contains=" + UPDATED_DESCRICAO_CURTA);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDateCriacaoIsNotEqualToSomething() throws Exception {
+    void getAllTarefasByDescricaoCurtaNotContainsSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dateCriacao not equals to DEFAULT_DATE_CRIACAO
-        defaultTarefaShouldNotBeFound("dateCriacao.notEquals=" + DEFAULT_DATE_CRIACAO);
+        // Get all the tarefaList where descricaoCurta does not contain DEFAULT_DESCRICAO_CURTA
+        defaultTarefaShouldNotBeFound("descricaoCurta.doesNotContain=" + DEFAULT_DESCRICAO_CURTA);
 
-        // Get all the tarefaList where dateCriacao not equals to UPDATED_DATE_CRIACAO
-        defaultTarefaShouldBeFound("dateCriacao.notEquals=" + UPDATED_DATE_CRIACAO);
+        // Get all the tarefaList where descricaoCurta does not contain UPDATED_DESCRICAO_CURTA
+        defaultTarefaShouldBeFound("descricaoCurta.doesNotContain=" + UPDATED_DESCRICAO_CURTA);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDateCriacaoIsInShouldWork() throws Exception {
+    void getAllTarefasByDataDeFimIsEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dateCriacao in DEFAULT_DATE_CRIACAO or UPDATED_DATE_CRIACAO
-        defaultTarefaShouldBeFound("dateCriacao.in=" + DEFAULT_DATE_CRIACAO + "," + UPDATED_DATE_CRIACAO);
+        // Get all the tarefaList where dataDeFim equals to DEFAULT_DATA_DE_FIM
+        defaultTarefaShouldBeFound("dataDeFim.equals=" + DEFAULT_DATA_DE_FIM);
 
-        // Get all the tarefaList where dateCriacao equals to UPDATED_DATE_CRIACAO
-        defaultTarefaShouldNotBeFound("dateCriacao.in=" + UPDATED_DATE_CRIACAO);
+        // Get all the tarefaList where dataDeFim equals to UPDATED_DATA_DE_FIM
+        defaultTarefaShouldNotBeFound("dataDeFim.equals=" + UPDATED_DATA_DE_FIM);
     }
 
     @Test
     @Transactional
-    void getAllTarefasByDateCriacaoIsNullOrNotNull() throws Exception {
+    void getAllTarefasByDataDeFimIsNotEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
 
-        // Get all the tarefaList where dateCriacao is not null
-        defaultTarefaShouldBeFound("dateCriacao.specified=true");
+        // Get all the tarefaList where dataDeFim not equals to DEFAULT_DATA_DE_FIM
+        defaultTarefaShouldNotBeFound("dataDeFim.notEquals=" + DEFAULT_DATA_DE_FIM);
 
-        // Get all the tarefaList where dateCriacao is null
-        defaultTarefaShouldNotBeFound("dateCriacao.specified=false");
+        // Get all the tarefaList where dataDeFim not equals to UPDATED_DATA_DE_FIM
+        defaultTarefaShouldBeFound("dataDeFim.notEquals=" + UPDATED_DATA_DE_FIM);
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeFimIsInShouldWork() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeFim in DEFAULT_DATA_DE_FIM or UPDATED_DATA_DE_FIM
+        defaultTarefaShouldBeFound("dataDeFim.in=" + DEFAULT_DATA_DE_FIM + "," + UPDATED_DATA_DE_FIM);
+
+        // Get all the tarefaList where dataDeFim equals to UPDATED_DATA_DE_FIM
+        defaultTarefaShouldNotBeFound("dataDeFim.in=" + UPDATED_DATA_DE_FIM);
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeFimIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeFim is not null
+        defaultTarefaShouldBeFound("dataDeFim.specified=true");
+
+        // Get all the tarefaList where dataDeFim is null
+        defaultTarefaShouldNotBeFound("dataDeFim.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeCriacaoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeCriacao equals to DEFAULT_DATA_DE_CRIACAO
+        defaultTarefaShouldBeFound("dataDeCriacao.equals=" + DEFAULT_DATA_DE_CRIACAO);
+
+        // Get all the tarefaList where dataDeCriacao equals to UPDATED_DATA_DE_CRIACAO
+        defaultTarefaShouldNotBeFound("dataDeCriacao.equals=" + UPDATED_DATA_DE_CRIACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeCriacaoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeCriacao not equals to DEFAULT_DATA_DE_CRIACAO
+        defaultTarefaShouldNotBeFound("dataDeCriacao.notEquals=" + DEFAULT_DATA_DE_CRIACAO);
+
+        // Get all the tarefaList where dataDeCriacao not equals to UPDATED_DATA_DE_CRIACAO
+        defaultTarefaShouldBeFound("dataDeCriacao.notEquals=" + UPDATED_DATA_DE_CRIACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeCriacaoIsInShouldWork() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeCriacao in DEFAULT_DATA_DE_CRIACAO or UPDATED_DATA_DE_CRIACAO
+        defaultTarefaShouldBeFound("dataDeCriacao.in=" + DEFAULT_DATA_DE_CRIACAO + "," + UPDATED_DATA_DE_CRIACAO);
+
+        // Get all the tarefaList where dataDeCriacao equals to UPDATED_DATA_DE_CRIACAO
+        defaultTarefaShouldNotBeFound("dataDeCriacao.in=" + UPDATED_DATA_DE_CRIACAO);
+    }
+
+    @Test
+    @Transactional
+    void getAllTarefasByDataDeCriacaoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        tarefaRepository.saveAndFlush(tarefa);
+
+        // Get all the tarefaList where dataDeCriacao is not null
+        defaultTarefaShouldBeFound("dataDeCriacao.specified=true");
+
+        // Get all the tarefaList where dataDeCriacao is null
+        defaultTarefaShouldNotBeFound("dataDeCriacao.specified=false");
     }
 
     @Test
@@ -469,40 +573,40 @@ class TarefaResourceIT {
 
     @Test
     @Transactional
-    void getAllTarefasByUserIsEqualToSomething() throws Exception {
+    void getAllTarefasByDonoIsEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
+        User dono = UserResourceIT.createEntity(em);
+        em.persist(dono);
         em.flush();
-        tarefa.setUser(user);
+        tarefa.setDono(dono);
         tarefaRepository.saveAndFlush(tarefa);
-        Long userId = user.getId();
+        Long donoId = dono.getId();
 
-        // Get all the tarefaList where user equals to userId
-        defaultTarefaShouldBeFound("userId.equals=" + userId);
+        // Get all the tarefaList where dono equals to donoId
+        defaultTarefaShouldBeFound("donoId.equals=" + donoId);
 
-        // Get all the tarefaList where user equals to (userId + 1)
-        defaultTarefaShouldNotBeFound("userId.equals=" + (userId + 1));
+        // Get all the tarefaList where dono equals to (donoId + 1)
+        defaultTarefaShouldNotBeFound("donoId.equals=" + (donoId + 1));
     }
 
     @Test
     @Transactional
-    void getAllTarefasByAssigneedIsEqualToSomething() throws Exception {
+    void getAllTarefasByResponsavelIsEqualToSomething() throws Exception {
         // Initialize the database
         tarefaRepository.saveAndFlush(tarefa);
-        User assigneed = UserResourceIT.createEntity(em);
-        em.persist(assigneed);
+        User responsavel = UserResourceIT.createEntity(em);
+        em.persist(responsavel);
         em.flush();
-        tarefa.setAssigneed(assigneed);
+        tarefa.setResponsavel(responsavel);
         tarefaRepository.saveAndFlush(tarefa);
-        Long assigneedId = assigneed.getId();
+        Long responsavelId = responsavel.getId();
 
-        // Get all the tarefaList where assigneed equals to assigneedId
-        defaultTarefaShouldBeFound("assigneedId.equals=" + assigneedId);
+        // Get all the tarefaList where responsavel equals to responsavelId
+        defaultTarefaShouldBeFound("responsavelId.equals=" + responsavelId);
 
-        // Get all the tarefaList where assigneed equals to (assigneedId + 1)
-        defaultTarefaShouldNotBeFound("assigneedId.equals=" + (assigneedId + 1));
+        // Get all the tarefaList where responsavel equals to (responsavelId + 1)
+        defaultTarefaShouldNotBeFound("responsavelId.equals=" + (responsavelId + 1));
     }
 
     @Test
@@ -534,8 +638,9 @@ class TarefaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tarefa.getId().intValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
-            .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dateCriacao").value(hasItem(DEFAULT_DATE_CRIACAO.toString())))
+            .andExpect(jsonPath("$.[*].descricaoCurta").value(hasItem(DEFAULT_DESCRICAO_CURTA)))
+            .andExpect(jsonPath("$.[*].dataDeFim").value(hasItem(DEFAULT_DATA_DE_FIM.toString())))
+            .andExpect(jsonPath("$.[*].dataDeCriacao").value(hasItem(DEFAULT_DATA_DE_CRIACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -584,7 +689,12 @@ class TarefaResourceIT {
         Tarefa updatedTarefa = tarefaRepository.findById(tarefa.getId()).get();
         // Disconnect from session so that the updates on updatedTarefa are not directly saved in db
         em.detach(updatedTarefa);
-        updatedTarefa.descricao(UPDATED_DESCRICAO).dueDate(UPDATED_DUE_DATE).dateCriacao(UPDATED_DATE_CRIACAO).status(UPDATED_STATUS);
+        updatedTarefa
+            .descricao(UPDATED_DESCRICAO)
+            .descricaoCurta(UPDATED_DESCRICAO_CURTA)
+            .dataDeFim(UPDATED_DATA_DE_FIM)
+            .dataDeCriacao(UPDATED_DATA_DE_CRIACAO)
+            .status(UPDATED_STATUS);
         TarefaDTO tarefaDTO = tarefaMapper.toDto(updatedTarefa);
 
         restTarefaMockMvc
@@ -600,8 +710,9 @@ class TarefaResourceIT {
         assertThat(tarefaList).hasSize(databaseSizeBeforeUpdate);
         Tarefa testTarefa = tarefaList.get(tarefaList.size() - 1);
         assertThat(testTarefa.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testTarefa.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
-        assertThat(testTarefa.getDateCriacao()).isEqualTo(UPDATED_DATE_CRIACAO);
+        assertThat(testTarefa.getDescricaoCurta()).isEqualTo(UPDATED_DESCRICAO_CURTA);
+        assertThat(testTarefa.getDataDeFim()).isEqualTo(UPDATED_DATA_DE_FIM);
+        assertThat(testTarefa.getDataDeCriacao()).isEqualTo(UPDATED_DATA_DE_CRIACAO);
         assertThat(testTarefa.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
@@ -682,7 +793,7 @@ class TarefaResourceIT {
         Tarefa partialUpdatedTarefa = new Tarefa();
         partialUpdatedTarefa.setId(tarefa.getId());
 
-        partialUpdatedTarefa.descricao(UPDATED_DESCRICAO).dueDate(UPDATED_DUE_DATE);
+        partialUpdatedTarefa.descricao(UPDATED_DESCRICAO).descricaoCurta(UPDATED_DESCRICAO_CURTA);
 
         restTarefaMockMvc
             .perform(
@@ -697,8 +808,9 @@ class TarefaResourceIT {
         assertThat(tarefaList).hasSize(databaseSizeBeforeUpdate);
         Tarefa testTarefa = tarefaList.get(tarefaList.size() - 1);
         assertThat(testTarefa.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testTarefa.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
-        assertThat(testTarefa.getDateCriacao()).isEqualTo(DEFAULT_DATE_CRIACAO);
+        assertThat(testTarefa.getDescricaoCurta()).isEqualTo(UPDATED_DESCRICAO_CURTA);
+        assertThat(testTarefa.getDataDeFim()).isEqualTo(DEFAULT_DATA_DE_FIM);
+        assertThat(testTarefa.getDataDeCriacao()).isEqualTo(DEFAULT_DATA_DE_CRIACAO);
         assertThat(testTarefa.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -716,8 +828,9 @@ class TarefaResourceIT {
 
         partialUpdatedTarefa
             .descricao(UPDATED_DESCRICAO)
-            .dueDate(UPDATED_DUE_DATE)
-            .dateCriacao(UPDATED_DATE_CRIACAO)
+            .descricaoCurta(UPDATED_DESCRICAO_CURTA)
+            .dataDeFim(UPDATED_DATA_DE_FIM)
+            .dataDeCriacao(UPDATED_DATA_DE_CRIACAO)
             .status(UPDATED_STATUS);
 
         restTarefaMockMvc
@@ -733,8 +846,9 @@ class TarefaResourceIT {
         assertThat(tarefaList).hasSize(databaseSizeBeforeUpdate);
         Tarefa testTarefa = tarefaList.get(tarefaList.size() - 1);
         assertThat(testTarefa.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testTarefa.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
-        assertThat(testTarefa.getDateCriacao()).isEqualTo(UPDATED_DATE_CRIACAO);
+        assertThat(testTarefa.getDescricaoCurta()).isEqualTo(UPDATED_DESCRICAO_CURTA);
+        assertThat(testTarefa.getDataDeFim()).isEqualTo(UPDATED_DATA_DE_FIM);
+        assertThat(testTarefa.getDataDeCriacao()).isEqualTo(UPDATED_DATA_DE_CRIACAO);
         assertThat(testTarefa.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 

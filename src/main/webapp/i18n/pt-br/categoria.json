@@ -20,7 +20,7 @@
       "id": "ID",
       "descricao": "Descricao",
       "tarefa": "Tarefa",
-      "user": "User"
+      "dono": "Dono"
     }
   }
 }

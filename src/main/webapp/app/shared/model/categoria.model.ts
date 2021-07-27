@@ -5,7 +5,7 @@ export interface ICategoria {
   id?: number;
   descricao?: string;
   tarefas?: ITarefa[] | null;
-  user?: IUser | null;
+  dono?: IUser | null;
 }
 
 export const defaultValue: Readonly<ICategoria> = {};

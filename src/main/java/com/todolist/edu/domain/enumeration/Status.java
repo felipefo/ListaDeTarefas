@@ -6,7 +6,8 @@ package com.todolist.edu.domain.enumeration;
 public enum Status {
     AFAZER("Afazer"),
     FAZENDO("Fazendo"),
-    FEITA("Feita");
+    FEITA("Feita"),
+    ARQUIVADA("Arquivada");
 
     private final String value;
 

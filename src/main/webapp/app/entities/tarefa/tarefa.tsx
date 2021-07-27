@@ -96,20 +96,24 @@ export const Tarefa = (props: ITarefaProps) => {
                 <th className="hand" onClick={sort('descricao')}>
                   <Translate contentKey="listaDeTarefasApp.tarefa.descricao">Descricao</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('dueDate')}>
-                  <Translate contentKey="listaDeTarefasApp.tarefa.dueDate">Due Date</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('descricaoCurta')}>
+                  <Translate contentKey="listaDeTarefasApp.tarefa.descricaoCurta">Descricao Curta</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('dateCriacao')}>
-                  <Translate contentKey="listaDeTarefasApp.tarefa.dateCriacao">Date Criacao</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('dataDeFim')}>
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dataDeFim">Data De Fim</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('dataDeCriacao')}>
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dataDeCriacao">Data De Criacao</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('status')}>
                   <Translate contentKey="listaDeTarefasApp.tarefa.status">Status</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="listaDeTarefasApp.tarefa.user">User</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dono">Dono</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="listaDeTarefasApp.tarefa.assigneed">Assigneed</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="listaDeTarefasApp.tarefa.responsavel">Responsavel</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
                   <Translate contentKey="listaDeTarefasApp.tarefa.categoria">Categoria</Translate> <FontAwesomeIcon icon="sort" />
@@ -126,13 +130,14 @@ export const Tarefa = (props: ITarefaProps) => {
                     </Button>
                   </td>
                   <td>{tarefa.descricao}</td>
-                  <td>{tarefa.dueDate ? <TextFormat type="date" value={tarefa.dueDate} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{tarefa.dateCriacao ? <TextFormat type="date" value={tarefa.dateCriacao} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{tarefa.descricaoCurta}</td>
+                  <td>{tarefa.dataDeFim ? <TextFormat type="date" value={tarefa.dataDeFim} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{tarefa.dataDeCriacao ? <TextFormat type="date" value={tarefa.dataDeCriacao} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>
                     <Translate contentKey={`listaDeTarefasApp.Status.${tarefa.status}`} />
                   </td>
-                  <td>{tarefa.user ? tarefa.user.login : ''}</td>
-                  <td>{tarefa.assigneed ? tarefa.assigneed.login : ''}</td>
+                  <td>{tarefa.dono ? tarefa.dono.login : ''}</td>
+                  <td>{tarefa.responsavel ? tarefa.responsavel.login : ''}</td>
                   <td>{tarefa.categoria ? <Link to={`categoria/${tarefa.categoria.id}`}>{tarefa.categoria.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

@@ -95,10 +95,10 @@ public class CategoriaQueryService extends QueryService<Categoria> {
                         buildSpecification(criteria.getTarefaId(), root -> root.join(Categoria_.tarefas, JoinType.LEFT).get(Tarefa_.id))
                     );
             }
-            if (criteria.getUserId() != null) {
+            if (criteria.getDonoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getUserId(), root -> root.join(Categoria_.user, JoinType.LEFT).get(User_.id))
+                        buildSpecification(criteria.getDonoId(), root -> root.join(Categoria_.dono, JoinType.LEFT).get(User_.id))
                     );
             }
         }

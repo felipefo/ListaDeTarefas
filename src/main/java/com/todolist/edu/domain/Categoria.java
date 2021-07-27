@@ -26,11 +26,11 @@ public class Categoria implements Serializable {
     private String descricao;
 
     @OneToMany(mappedBy = "categoria")
-    @JsonIgnoreProperties(value = { "user", "assigneed", "categoria" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "dono", "responsavel", "categoria" }, allowSetters = true)
     private Set<Tarefa> tarefas = new HashSet<>();
 
     @ManyToOne
-    private User user;
+    private User dono;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -90,17 +90,17 @@ public class Categoria implements Serializable {
         this.tarefas = tarefas;
     }
 
-    public User getUser() {
-        return this.user;
+    public User getDono() {
+        return this.dono;
     }
 
-    public Categoria user(User user) {
-        this.setUser(user);
+    public Categoria dono(User user) {
+        this.setDono(user);
         return this;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDono(User user) {
+        this.dono = user;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

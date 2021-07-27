@@ -89,25 +89,28 @@ public class TarefaQueryService extends QueryService<Tarefa> {
             if (criteria.getDescricao() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescricao(), Tarefa_.descricao));
             }
-            if (criteria.getDueDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDueDate(), Tarefa_.dueDate));
+            if (criteria.getDescricaoCurta() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDescricaoCurta(), Tarefa_.descricaoCurta));
             }
-            if (criteria.getDateCriacao() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDateCriacao(), Tarefa_.dateCriacao));
+            if (criteria.getDataDeFim() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataDeFim(), Tarefa_.dataDeFim));
+            }
+            if (criteria.getDataDeCriacao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataDeCriacao(), Tarefa_.dataDeCriacao));
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Tarefa_.status));
             }
-            if (criteria.getUserId() != null) {
+            if (criteria.getDonoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getUserId(), root -> root.join(Tarefa_.user, JoinType.LEFT).get(User_.id))
+                        buildSpecification(criteria.getDonoId(), root -> root.join(Tarefa_.dono, JoinType.LEFT).get(User_.id))
                     );
             }
-            if (criteria.getAssigneedId() != null) {
+            if (criteria.getResponsavelId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getAssigneedId(), root -> root.join(Tarefa_.assigneed, JoinType.LEFT).get(User_.id))
+                        buildSpecification(criteria.getResponsavelId(), root -> root.join(Tarefa_.responsavel, JoinType.LEFT).get(User_.id))
                     );
             }
             if (criteria.getCategoriaId() != null) {

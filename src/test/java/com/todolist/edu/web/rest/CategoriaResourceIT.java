@@ -285,21 +285,21 @@ class CategoriaResourceIT {
 
     @Test
     @Transactional
-    void getAllCategoriasByUserIsEqualToSomething() throws Exception {
+    void getAllCategoriasByDonoIsEqualToSomething() throws Exception {
         // Initialize the database
         categoriaRepository.saveAndFlush(categoria);
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
+        User dono = UserResourceIT.createEntity(em);
+        em.persist(dono);
         em.flush();
-        categoria.setUser(user);
+        categoria.setDono(dono);
         categoriaRepository.saveAndFlush(categoria);
-        Long userId = user.getId();
+        Long donoId = dono.getId();
 
-        // Get all the categoriaList where user equals to userId
-        defaultCategoriaShouldBeFound("userId.equals=" + userId);
+        // Get all the categoriaList where dono equals to donoId
+        defaultCategoriaShouldBeFound("donoId.equals=" + donoId);
 
-        // Get all the categoriaList where user equals to (userId + 1)
-        defaultCategoriaShouldNotBeFound("userId.equals=" + (userId + 1));
+        // Get all the categoriaList where dono equals to (donoId + 1)
+        defaultCategoriaShouldNotBeFound("donoId.equals=" + (donoId + 1));
     }
 
     /**

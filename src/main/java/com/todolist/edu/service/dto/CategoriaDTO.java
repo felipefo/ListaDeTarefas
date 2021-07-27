@@ -14,7 +14,7 @@ public class CategoriaDTO implements Serializable {
     @NotNull
     private String descricao;
 
-    private UserDTO user;
+    private UserDTO dono;
 
     public Long getId() {
         return id;
@@ -32,12 +32,12 @@ public class CategoriaDTO implements Serializable {
         this.descricao = descricao;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public UserDTO getDono() {
+        return dono;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setDono(UserDTO dono) {
+        this.dono = dono;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CategoriaDTO implements Serializable {
         return "CategoriaDTO{" +
             "id=" + getId() +
             ", descricao='" + getDescricao() + "'" +
-            ", user=" + getUser() +
+            ", dono=" + getDono() +
             "}";
     }
 }

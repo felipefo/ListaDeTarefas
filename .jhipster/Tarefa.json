@@ -7,17 +7,22 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "dueDate",
+      "fieldName": "descricaoCurta",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataDeFim",
       "fieldType": "Instant"
     },
     {
-      "fieldName": "dateCriacao",
+      "fieldName": "dataDeCriacao",
       "fieldType": "Instant"
     },
     {
       "fieldName": "status",
       "fieldType": "Status",
-      "fieldValues": "AFAZER (Afazer),FAZENDO (Fazendo),FEITA (Feita)",
+      "fieldValues": "AFAZER (Afazer),FAZENDO (Fazendo),FEITA (Feita),ARQUIVADA (Arquivada)",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -26,14 +31,14 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "tarefa",
-      "relationshipName": "user",
+      "relationshipName": "dono",
       "otherEntityField": "login"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "tarefa",
-      "relationshipName": "assigneed",
+      "relationshipName": "responsavel",
       "otherEntityField": "login"
     },
     {

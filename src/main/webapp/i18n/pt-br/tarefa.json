@@ -19,11 +19,12 @@
       },
       "id": "ID",
       "descricao": "Descricao",
-      "dueDate": "Due Date",
-      "dateCriacao": "Date Criacao",
+      "descricaoCurta": "Descricao Curta",
+      "dataDeFim": "Data De Fim",
+      "dataDeCriacao": "Data De Criacao",
       "status": "Status",
-      "user": "User",
-      "assigneed": "Assigneed",
+      "dono": "Dono",
+      "responsavel": "Responsavel",
       "categoria": "Categoria"
     }
   }

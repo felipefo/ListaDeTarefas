@@ -18,7 +18,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "categoria",
-      "relationshipName": "user",
+      "relationshipName": "dono",
       "otherEntityField": "login"
     }
   ],

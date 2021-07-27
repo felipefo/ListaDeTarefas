@@ -45,15 +45,15 @@ export const TarefaUpdate = (props: ITarefaUpdateProps) => {
   }, [props.updateSuccess]);
 
   const saveEntity = (event, errors, values) => {
-    values.dueDate = convertDateTimeToServer(values.dueDate);
-    values.dateCriacao = convertDateTimeToServer(values.dateCriacao);
+    values.dataDeFim = convertDateTimeToServer(values.dataDeFim);
+    values.dataDeCriacao = convertDateTimeToServer(values.dataDeCriacao);
 
     if (errors.length === 0) {
       const entity = {
         ...tarefaEntity,
         ...values,
-        user: users.find(it => it.id.toString() === values.userId.toString()),
-        assigneed: users.find(it => it.id.toString() === values.assigneedId.toString()),
+        dono: users.find(it => it.id.toString() === values.donoId.toString()),
+        responsavel: users.find(it => it.id.toString() === values.responsavelId.toString()),
         categoria: categorias.find(it => it.id.toString() === values.categoriaId.toString()),
       };
 
@@ -103,31 +103,45 @@ export const TarefaUpdate = (props: ITarefaUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
-                <Label id="dueDateLabel" for="tarefa-dueDate">
-                  <Translate contentKey="listaDeTarefasApp.tarefa.dueDate">Due Date</Translate>
+                <Label id="descricaoCurtaLabel" for="tarefa-descricaoCurta">
+                  <Translate contentKey="listaDeTarefasApp.tarefa.descricaoCurta">Descricao Curta</Translate>
                 </Label>
-                <AvInput
-                  id="tarefa-dueDate"
-                  data-cy="dueDate"
-                  type="datetime-local"
-                  className="form-control"
-                  name="dueDate"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.tarefaEntity.dueDate)}
+                <AvField
+                  id="tarefa-descricaoCurta"
+                  data-cy="descricaoCurta"
+                  type="text"
+                  name="descricaoCurta"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}
                 />
               </AvGroup>
               <AvGroup>
-                <Label id="dateCriacaoLabel" for="tarefa-dateCriacao">
-                  <Translate contentKey="listaDeTarefasApp.tarefa.dateCriacao">Date Criacao</Translate>
+                <Label id="dataDeFimLabel" for="tarefa-dataDeFim">
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dataDeFim">Data De Fim</Translate>
                 </Label>
                 <AvInput
-                  id="tarefa-dateCriacao"
-                  data-cy="dateCriacao"
+                  id="tarefa-dataDeFim"
+                  data-cy="dataDeFim"
                   type="datetime-local"
                   className="form-control"
-                  name="dateCriacao"
+                  name="dataDeFim"
                   placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.tarefaEntity.dateCriacao)}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.tarefaEntity.dataDeFim)}
+                />
+              </AvGroup>
+              <AvGroup>
+                <Label id="dataDeCriacaoLabel" for="tarefa-dataDeCriacao">
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dataDeCriacao">Data De Criacao</Translate>
+                </Label>
+                <AvInput
+                  id="tarefa-dataDeCriacao"
+                  data-cy="dataDeCriacao"
+                  type="datetime-local"
+                  className="form-control"
+                  name="dataDeCriacao"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.tarefaEntity.dataDeCriacao)}
                 />
               </AvGroup>
               <AvGroup>
@@ -145,13 +159,14 @@ export const TarefaUpdate = (props: ITarefaUpdateProps) => {
                   <option value="AFAZER">{translate('listaDeTarefasApp.Status.AFAZER')}</option>
                   <option value="FAZENDO">{translate('listaDeTarefasApp.Status.FAZENDO')}</option>
                   <option value="FEITA">{translate('listaDeTarefasApp.Status.FEITA')}</option>
+                  <option value="ARQUIVADA">{translate('listaDeTarefasApp.Status.ARQUIVADA')}</option>
                 </AvInput>
               </AvGroup>
               <AvGroup>
-                <Label for="tarefa-user">
-                  <Translate contentKey="listaDeTarefasApp.tarefa.user">User</Translate>
+                <Label for="tarefa-dono">
+                  <Translate contentKey="listaDeTarefasApp.tarefa.dono">Dono</Translate>
                 </Label>
-                <AvInput id="tarefa-user" data-cy="user" type="select" className="form-control" name="userId">
+                <AvInput id="tarefa-dono" data-cy="dono" type="select" className="form-control" name="donoId">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (
@@ -163,10 +178,10 @@ export const TarefaUpdate = (props: ITarefaUpdateProps) => {
                 </AvInput>
               </AvGroup>
               <AvGroup>
-                <Label for="tarefa-assigneed">
-                  <Translate contentKey="listaDeTarefasApp.tarefa.assigneed">Assigneed</Translate>
+                <Label for="tarefa-responsavel">
+                  <Translate contentKey="listaDeTarefasApp.tarefa.responsavel">Responsavel</Translate>
                 </Label>
-                <AvInput id="tarefa-assigneed" data-cy="assigneed" type="select" className="form-control" name="assigneedId">
+                <AvInput id="tarefa-responsavel" data-cy="responsavel" type="select" className="form-control" name="responsavelId">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (

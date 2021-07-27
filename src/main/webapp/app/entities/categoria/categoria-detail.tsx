@@ -37,9 +37,9 @@ export const CategoriaDetail = (props: ICategoriaDetailProps) => {
           </dt>
           <dd>{categoriaEntity.descricao}</dd>
           <dt>
-            <Translate contentKey="listaDeTarefasApp.categoria.user">User</Translate>
+            <Translate contentKey="listaDeTarefasApp.categoria.dono">Dono</Translate>
           </dt>
-          <dd>{categoriaEntity.user ? categoriaEntity.user.login : ''}</dd>
+          <dd>{categoriaEntity.dono ? categoriaEntity.dono.login : ''}</dd>
         </dl>
         <Button tag={Link} to="/categoria" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

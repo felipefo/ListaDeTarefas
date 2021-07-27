@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>, JpaSpecificationExecutor<Categoria> {
-    @Query("select categoria from Categoria categoria where categoria.user.login = ?#{principal.username}")
-    List<Categoria> findByUserIsCurrentUser();
+    @Query("select categoria from Categoria categoria where categoria.dono.login = ?#{principal.username}")
+    List<Categoria> findByDonoIsCurrentUser();
 }

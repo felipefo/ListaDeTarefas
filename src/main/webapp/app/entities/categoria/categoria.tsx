@@ -97,7 +97,7 @@ export const Categoria = (props: ICategoriaProps) => {
                   <Translate contentKey="listaDeTarefasApp.categoria.descricao">Descricao</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="listaDeTarefasApp.categoria.user">User</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="listaDeTarefasApp.categoria.dono">Dono</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -111,7 +111,7 @@ export const Categoria = (props: ICategoriaProps) => {
                     </Button>
                   </td>
                   <td>{categoria.descricao}</td>
-                  <td>{categoria.user ? categoria.user.login : ''}</td>
+                  <td>{categoria.dono ? categoria.dono.login : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${categoria.id}`} color="info" size="sm" data-cy="entityDetailsButton">

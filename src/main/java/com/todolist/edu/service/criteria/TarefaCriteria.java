@@ -47,15 +47,17 @@ public class TarefaCriteria implements Serializable, Criteria {
 
     private StringFilter descricao;
 
-    private InstantFilter dueDate;
+    private StringFilter descricaoCurta;
 
-    private InstantFilter dateCriacao;
+    private InstantFilter dataDeFim;
+
+    private InstantFilter dataDeCriacao;
 
     private StatusFilter status;
 
-    private LongFilter userId;
+    private LongFilter donoId;
 
-    private LongFilter assigneedId;
+    private LongFilter responsavelId;
 
     private LongFilter categoriaId;
 
@@ -64,11 +66,12 @@ public class TarefaCriteria implements Serializable, Criteria {
     public TarefaCriteria(TarefaCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
-        this.dueDate = other.dueDate == null ? null : other.dueDate.copy();
-        this.dateCriacao = other.dateCriacao == null ? null : other.dateCriacao.copy();
+        this.descricaoCurta = other.descricaoCurta == null ? null : other.descricaoCurta.copy();
+        this.dataDeFim = other.dataDeFim == null ? null : other.dataDeFim.copy();
+        this.dataDeCriacao = other.dataDeCriacao == null ? null : other.dataDeCriacao.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.userId = other.userId == null ? null : other.userId.copy();
-        this.assigneedId = other.assigneedId == null ? null : other.assigneedId.copy();
+        this.donoId = other.donoId == null ? null : other.donoId.copy();
+        this.responsavelId = other.responsavelId == null ? null : other.responsavelId.copy();
         this.categoriaId = other.categoriaId == null ? null : other.categoriaId.copy();
     }
 
@@ -107,34 +110,49 @@ public class TarefaCriteria implements Serializable, Criteria {
         this.descricao = descricao;
     }
 
-    public InstantFilter getDueDate() {
-        return dueDate;
+    public StringFilter getDescricaoCurta() {
+        return descricaoCurta;
     }
 
-    public InstantFilter dueDate() {
-        if (dueDate == null) {
-            dueDate = new InstantFilter();
+    public StringFilter descricaoCurta() {
+        if (descricaoCurta == null) {
+            descricaoCurta = new StringFilter();
         }
-        return dueDate;
+        return descricaoCurta;
     }
 
-    public void setDueDate(InstantFilter dueDate) {
-        this.dueDate = dueDate;
+    public void setDescricaoCurta(StringFilter descricaoCurta) {
+        this.descricaoCurta = descricaoCurta;
     }
 
-    public InstantFilter getDateCriacao() {
-        return dateCriacao;
+    public InstantFilter getDataDeFim() {
+        return dataDeFim;
     }
 
-    public InstantFilter dateCriacao() {
-        if (dateCriacao == null) {
-            dateCriacao = new InstantFilter();
+    public InstantFilter dataDeFim() {
+        if (dataDeFim == null) {
+            dataDeFim = new InstantFilter();
         }
-        return dateCriacao;
+        return dataDeFim;
     }
 
-    public void setDateCriacao(InstantFilter dateCriacao) {
-        this.dateCriacao = dateCriacao;
+    public void setDataDeFim(InstantFilter dataDeFim) {
+        this.dataDeFim = dataDeFim;
+    }
+
+    public InstantFilter getDataDeCriacao() {
+        return dataDeCriacao;
+    }
+
+    public InstantFilter dataDeCriacao() {
+        if (dataDeCriacao == null) {
+            dataDeCriacao = new InstantFilter();
+        }
+        return dataDeCriacao;
+    }
+
+    public void setDataDeCriacao(InstantFilter dataDeCriacao) {
+        this.dataDeCriacao = dataDeCriacao;
     }
 
     public StatusFilter getStatus() {
@@ -152,34 +170,34 @@ public class TarefaCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public LongFilter getUserId() {
-        return userId;
+    public LongFilter getDonoId() {
+        return donoId;
     }
 
-    public LongFilter userId() {
-        if (userId == null) {
-            userId = new LongFilter();
+    public LongFilter donoId() {
+        if (donoId == null) {
+            donoId = new LongFilter();
         }
-        return userId;
+        return donoId;
     }
 
-    public void setUserId(LongFilter userId) {
-        this.userId = userId;
+    public void setDonoId(LongFilter donoId) {
+        this.donoId = donoId;
     }
 
-    public LongFilter getAssigneedId() {
-        return assigneedId;
+    public LongFilter getResponsavelId() {
+        return responsavelId;
     }
 
-    public LongFilter assigneedId() {
-        if (assigneedId == null) {
-            assigneedId = new LongFilter();
+    public LongFilter responsavelId() {
+        if (responsavelId == null) {
+            responsavelId = new LongFilter();
         }
-        return assigneedId;
+        return responsavelId;
     }
 
-    public void setAssigneedId(LongFilter assigneedId) {
-        this.assigneedId = assigneedId;
+    public void setResponsavelId(LongFilter responsavelId) {
+        this.responsavelId = responsavelId;
     }
 
     public LongFilter getCategoriaId() {
@@ -209,18 +227,19 @@ public class TarefaCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(descricao, that.descricao) &&
-            Objects.equals(dueDate, that.dueDate) &&
-            Objects.equals(dateCriacao, that.dateCriacao) &&
+            Objects.equals(descricaoCurta, that.descricaoCurta) &&
+            Objects.equals(dataDeFim, that.dataDeFim) &&
+            Objects.equals(dataDeCriacao, that.dataDeCriacao) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(userId, that.userId) &&
-            Objects.equals(assigneedId, that.assigneedId) &&
+            Objects.equals(donoId, that.donoId) &&
+            Objects.equals(responsavelId, that.responsavelId) &&
             Objects.equals(categoriaId, that.categoriaId)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao, dueDate, dateCriacao, status, userId, assigneedId, categoriaId);
+        return Objects.hash(id, descricao, descricaoCurta, dataDeFim, dataDeCriacao, status, donoId, responsavelId, categoriaId);
     }
 
     // prettier-ignore
@@ -229,11 +248,12 @@ public class TarefaCriteria implements Serializable, Criteria {
         return "TarefaCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
-            (dueDate != null ? "dueDate=" + dueDate + ", " : "") +
-            (dateCriacao != null ? "dateCriacao=" + dateCriacao + ", " : "") +
+            (descricaoCurta != null ? "descricaoCurta=" + descricaoCurta + ", " : "") +
+            (dataDeFim != null ? "dataDeFim=" + dataDeFim + ", " : "") +
+            (dataDeCriacao != null ? "dataDeCriacao=" + dataDeCriacao + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
-            (userId != null ? "userId=" + userId + ", " : "") +
-            (assigneedId != null ? "assigneedId=" + assigneedId + ", " : "") +
+            (donoId != null ? "donoId=" + donoId + ", " : "") +
+            (responsavelId != null ? "responsavelId=" + responsavelId + ", " : "") +
             (categoriaId != null ? "categoriaId=" + categoriaId + ", " : "") +
             "}";
     }
