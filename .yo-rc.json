@@ -41,6 +41,8 @@
     "jwtSecretKey": "M2U1MzNiZTFjNjEzMWFjZGQ0NzdhZDZkYzIxYzEzZWMyYWI4Zjc0MmNjM2ViYjYzM2ZkZTBlMmM3MzVmYzFkYjkxMmZiMGNhODFjNDI0YmFjYjFmN2ExNDUxNzQ3YjZjOWUzNDRiN2NjMDg3ZjY5Mjk5MGJiYjE2M2Y5ZWI1YWI=",
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
-    "languages": ["pt-br"]
+    "languages": ["pt-br"],
+    "entities": ["Tarefa", "Categoria"],
+    "lastLiquibaseTimestamp": 1627405539000
   }
 }

@@ -1,0 +1,10 @@
+{
+  "listaDeTarefasApp": {
+    "Status": {
+      "null": "",
+      "AFAZER": "Afazer",
+      "FAZENDO": "Fazendo",
+      "FEITA": "Feita"
+    }
+  }
+}
