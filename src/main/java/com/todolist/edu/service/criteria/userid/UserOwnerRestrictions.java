@@ -67,7 +67,7 @@ public class UserOwnerRestrictions {
             username = ((UserDetails) principal).getUsername();
         }
         Optional<User> user = userRepository.findOneByLogin(username);
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             throw new Exception("user not found " + username);
         }
         return user.get();

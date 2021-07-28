@@ -76,7 +76,7 @@ public class TarefaResource {
         try {
             userOwnerRestrictions.setDTOUserId(new UserIdStrategy(tarefaDTO , TarefaDTO.class));
         } catch (Exception ex) {
-           throw new BadRequestAlertException("Operation not allowed", ENTITY_NAME, "nao permitido");
+           throw new BadRequestAlertException("Operation not allowed", ENTITY_NAME, ex.getMessage());
         }
 
         TarefaDTO result = tarefaService.save(tarefaDTO);
@@ -186,7 +186,7 @@ public class TarefaResource {
          try {
             userOwnerRestrictions.setUserOwnerIDFilter(criteria, TarefaCriteria.class , new UserIdStrategy(null , TarefaDTO.class) );
         } catch (Exception ex) {
-          throw new BadRequestAlertException("operacao nao permitida", ENTITY_NAME, "operacao nao permitida");
+          throw new BadRequestAlertException("operacao nao permitida", ENTITY_NAME,  ex.getMessage());
         }
         
         
@@ -208,7 +208,7 @@ public class TarefaResource {
         try {
            userOwnerRestrictions.setUserOwnerIDFilter(criteria, TarefaCriteria.class , new UserIdStrategy(null , TarefaDTO.class) );
         } catch (Exception ex) {
-          throw new BadRequestAlertException("operacao nao permitida", ENTITY_NAME, "operacao nao permitida");
+          throw new BadRequestAlertException("operacao nao permitida", ENTITY_NAME,  ex.getMessage());
         }
         return ResponseEntity.ok().body(tarefaQueryService.countByCriteria(criteria));
     }
