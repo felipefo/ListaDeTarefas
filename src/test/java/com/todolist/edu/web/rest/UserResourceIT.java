@@ -92,14 +92,17 @@ class UserResourceIT {
      */
     public static User createEntity(EntityManager em) {
         User user = new User();
-        user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
-        user.setPassword(RandomStringUtils.random(60));
-        user.setActivated(true);
-        user.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
-        user.setImageUrl(DEFAULT_IMAGEURL);
-        user.setLangKey(DEFAULT_LANGKEY);
+        //user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
+        //user.setPassword(RandomStringUtils.random(60));
+        //user.setActivated(true);
+        //user.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
+        //user.setFirstName(DEFAULT_FIRSTNAME);
+        //user.setLastName(DEFAULT_LASTNAME);
+        //user.setImageUrl(DEFAULT_IMAGEURL);
+        //user.setLangKey(DEFAULT_LANGKEY);
+        user.setId(2L);
+        //user.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
+        
         return user;
     }
 
